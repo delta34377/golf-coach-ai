@@ -449,24 +449,30 @@ try {
 
       {/* Skill Level and Clear History Container */}
       <div style={styles.headerContainer}>
-        <div style={styles.skillLevelContainer}>
-          <label style={{ fontWeight: 'bold', marginRight: '10px' }}>Skill Level:</label>
-          <select 
-  value={skillLevel} 
-  onChange={(e) => setSkillLevel(e.target.value)}
-  style={{ 
-    padding: '8px', 
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    width: isMobile ? '100%' : 'auto'
-  }}
->
-  <option value="">Select Level (Optional)</option>
-  <option value="beginner">Beginner</option>
-  <option value="intermediate">Intermediate</option>
-  <option value="advanced">Advanced</option>
-</select>
-        </div>
+      <div style={styles.skillLevelContainer}>
+  <label style={{ 
+    fontWeight: 'bold', 
+    marginRight: '10px', 
+    color: 'var(--foreground)' // Use CSS variable for text color
+  }}>Skill Level:</label>
+  <select 
+    value={skillLevel} 
+    onChange={(e) => setSkillLevel(e.target.value)}
+    style={{ 
+      padding: '8px', 
+      borderRadius: '5px',
+      border: '1px solid #ccc',
+      width: isMobile ? '100%' : 'auto',
+      backgroundColor: 'var(--background)', // Use background variable
+      color: 'var(--foreground)', // Use foreground variable for text
+    }}
+  >
+    <option value="">Select Level (Optional)</option>
+    <option value="beginner">Beginner</option>
+    <option value="intermediate">Intermediate</option>
+    <option value="advanced">Advanced</option>
+  </select>
+</div>
         
         {/* Clear History Button */}
         <button
@@ -507,15 +513,16 @@ try {
       <div style={{ marginBottom: '20px' }}>
         {messages.map((msg, i) => (
           <div 
-            key={i} 
-            style={{ 
-              ...styles.messageContainer,
-              backgroundColor: msg.role === 'user' ? '#e2f8e2' : '#f0f0f0',
-            }}
-          >
-            <strong>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
-            {msg.content}
-          </div>
+          key={i} 
+          style={{ 
+            ...styles.messageContainer,
+            backgroundColor: msg.role === 'user' ? '#e2f8e2' : '#f0f0f0',
+            color: 'var(--foreground)', // Ensure text is readable
+          }}
+        >
+          <strong>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
+          {msg.content}
+        </div>
         ))}
         
         {/* Typing Indicator */}
