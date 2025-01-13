@@ -360,25 +360,7 @@ try {
   return (
 <>
 <Head>
-  {/* Google Analytics */}
-  <script
-    async
-    src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-  />
-  <script 
-  id="google-analytics" 
-  dangerouslySetInnerHTML={{
-    __html: `
-      console.log('GA ID:', '${process.env.NEXT_PUBLIC_GA_ID}');
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
-        page_path: window.location.pathname,
-      });
-    `
-  }} 
-/>
+  
   <title>Coach Chip | Your AI Golf Coach - Instant Golf Tips & Instruction</title>
   <meta name="description" content="Get instant, personalized golf coaching from Coach Chip AI. Improve your swing, putting, and overall game with 24/7 access to AI-powered golf instruction for all skill levels." />
   <meta name="keywords" content="golf coach, golf instruction, golf lessons, golf tips, golf swing help, putting tips, golf AI, golf training, golf improvement, golf coach online" />
