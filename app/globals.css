@@ -19,3 +19,22 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+input, textarea {
+  color: var(--foreground); /* Ensures text is readable */
+  background-color: var(--background); /* Matches the theme */
+  font-size: 16px; /* Adjust font size for readability */
+  font-weight: 400; /* Standard weight for text */
+  border: 1px solid var(--foreground); /* Optional: Add visible borders */
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(23, 23, 23, 0.6); /* Adjust placeholder color for better contrast */
+}
+
+@media (prefers-color-scheme: dark) {
+  input::placeholder, textarea::placeholder {
+    color: rgba(237, 237, 237, 0.6); /* Lighter placeholder for dark mode */
+  }
+}
+
