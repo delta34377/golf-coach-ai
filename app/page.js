@@ -463,7 +463,7 @@ try {
       padding: '8px', 
       borderRadius: '5px',
       border: '1px solid #ccc',
-      width: isMobile ? '100%' : 'auto'
+      width: isMobile ? '100%' : 'auto',
       backgroundColor: 'white', // Explicitly set background to white
     color: 'black', // Ensure black text
     fontSize: '16px' // Consistent font size
