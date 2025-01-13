@@ -465,7 +465,7 @@ try {
           onClick={clearHistory}
           style={{
             padding: '8px 15px',
-            backgroundColor: '#ffcccc',
+            backgroundColor: '#ff8080',
             color: 'white',
             border: 'none',
             borderRadius: '5px',
