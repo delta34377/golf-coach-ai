@@ -453,7 +453,8 @@ try {
   <label style={{ 
     fontWeight: 'bold', 
     marginRight: '10px', 
-    color: 'var(--foreground)' // Use CSS variable for text color
+    color: 'black', // Explicitly set a dark color
+    fontSize: '16px' // Ensure it's readable
   }}>Skill Level:</label>
   <select 
     value={skillLevel} 
@@ -462,9 +463,7 @@ try {
       padding: '8px', 
       borderRadius: '5px',
       border: '1px solid #ccc',
-      width: isMobile ? '100%' : 'auto',
-      backgroundColor: 'var(--background)', // Use background variable
-      color: 'var(--foreground)', // Use foreground variable for text
+      width: isMobile ? '100%' : 'auto'
     }}
   >
     <option value="">Select Level (Optional)</option>
@@ -517,10 +516,11 @@ try {
           style={{ 
             ...styles.messageContainer,
             backgroundColor: msg.role === 'user' ? '#e2f8e2' : '#f0f0f0',
-            color: 'var(--foreground)', // Ensure text is readable
+            color: 'black', // Explicitly set text color to black
+            fontSize: isMobile ? '16px' : '18px' // Ensure readable font size
           }}
         >
-          <strong>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
+          <strong style={{ color: 'black' }}>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
           {msg.content}
         </div>
         ))}
