@@ -50,8 +50,8 @@ export default function Home() {
   // Initial message
   const initialMessage = { 
     role: 'assistant', 
-    content: "Hi! I'm your AI golf coach. Select your skill level and ask me anything or use the quick questions below!",
-    tokens: countTokens("Hi! I'm your AI golf coach. Select your skill level and ask me anything or use the quick questions below!")
+    content: "Hi! I'm your AI golf coach. Select your skill level and ask me anything or use the quick questions above!",
+    tokens: countTokens("Hi! I'm your AI golf coach. Select your skill level and ask me anything or use the quick questions above!")
   };
 
   // State management
