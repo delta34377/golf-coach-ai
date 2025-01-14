@@ -537,8 +537,8 @@ try {
     >
       <strong style={{ color: 'black' }}>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
       {msg.content}
-      {/* Only show feedback buttons for coach responses */}
-      {msg.role === 'assistant' && (
+     {/* Only show feedback buttons for coach responses (excluding initial message) */}
+{msg.role === 'assistant' && i !== 0 && (
         <div style={{
           marginTop: '10px',
           display: 'flex',
