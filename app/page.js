@@ -85,38 +85,37 @@ export default function Home() {
     }
 
     try {
-        // Log window and gtag status for debugging
-        console.log('Window exists:', typeof window !== 'undefined');
-        console.log('Gtag exists:', typeof window?.gtag);
-        console.log('GA ID:', process.env.NEXT_PUBLIC_GA_ID);
+        // Log additional debug info
+        console.group('Google Analytics Debug');
+        console.log('Window location:', window.location.href);
+        console.log('Referrer:', document.referrer);
+        console.log('GA Tracking ID:', process.env.NEXT_PUBLIC_GA_ID);
 
-        // Enhanced logging for debugging
-        console.log('Feedback Tracking Details', {
-            messageIndex,
-            isHelpful,
-            skillLevel: skillLevel || 'not_specified'
-        });
+        // Attempt multiple tracking methods
+        if (typeof window !== 'undefined') {
+            // Standard gtag method
+            if (window.gtag) {
+                window.gtag('event', 'message_feedback', {
+                    'event_category': 'User Interaction',
+                    'event_label': isHelpful ? 'helpful' : 'not_helpful',
+                    'value': messageIndex,
+                    'skill_level': skillLevel || 'not_specified'
+                });
+                console.log('GA event sent via gtag');
+            }
 
-        // Track event using the existing trackEvent function
-        trackEvent(
-            'User Interaction', 
-            'message_feedback', 
-            isHelpful ? 'helpful' : 'not_helpful'
-        );
-
-        // Additional detailed tracking with gtag
-        if (typeof window !== 'undefined' && window.gtag) {
-            console.log('Attempting to send GA event');
-            window.gtag('event', 'message_feedback', {
-                'event_category': 'User Interaction',
-                'event_label': isHelpful ? 'helpful' : 'not_helpful',
-                'value': messageIndex,
-                'skill_level': skillLevel || 'not_specified'
-            });
-            console.log('GA event sent successfully');
-        } else {
-            console.warn('Google Analytics tracking not available');
+            // Fallback tracking method
+            if (window._gaq) {
+                window._gaq.push(['_trackEvent', 
+                    'User Interaction', 
+                    'message_feedback', 
+                    isHelpful ? 'helpful' : 'not_helpful'
+                ]);
+                console.log('GA event sent via _gaq');
+            }
         }
+
+        console.groupEnd();
     } catch (err) {
         console.error('Error tracking feedback:', err);
     }
