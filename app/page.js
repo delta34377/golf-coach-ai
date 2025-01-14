@@ -62,6 +62,7 @@ export default function Home() {
   const [isTyping, setIsTyping] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [requestCount, setRequestCount] = useState(0);
+  const [feedbackGiven, setFeedbackGiven] = useState({});
   const MAX_REQUESTS_PER_HOUR = 20; // Maximum number of requests allowed per hour
   const REQUEST_TIMEOUT = 3600000; // 1 hour in milliseconds
   const checkRateLimit = () => {
@@ -76,6 +77,33 @@ export default function Home() {
   // Token and message management
   const MAX_TOTAL_TOKENS = 3000; // OpenAI token limit
   const MAX_MESSAGES = 10; // Limit conversation history
+
+  const handleFeedback = (messageIndex, isHelpful) => {
+    // Prevent multiple feedback on the same message
+    if (feedbackGiven[messageIndex]) {
+      return;
+    }
+
+    // Track the feedback
+    try {
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'feedback', {
+          'event_category': 'Message Feedback',
+          'event_label': isHelpful ? 'helpful' : 'not_helpful',
+          'message_index': messageIndex,
+          'skill_level': skillLevel || 'not_specified'
+        });
+      }
+    } catch (err) {
+      console.error('Error tracking feedback:', err);
+    }
+
+    // Mark this message as having received feedback
+    setFeedbackGiven(prev => ({
+      ...prev,
+      [messageIndex]: true
+    }));
+  };
 
   // Responsive design check
   useEffect(() => {
@@ -495,22 +523,61 @@ try {
         ))}
       </div>
 
-      {/* Chat Messages */}
-      <div style={{ marginBottom: '20px' }}>
-        {messages.map((msg, i) => (
-          <div 
-          key={i} 
-          style={{ 
-            ...styles.messageContainer,
-            backgroundColor: msg.role === 'user' ? '#e2f8e2' : '#f0f0f0',
-            color: 'black', // Explicitly set text color to black
-            fontSize: isMobile ? '16px' : '18px' // Ensure readable font size
-          }}
-        >
-          <strong style={{ color: 'black' }}>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
-          {msg.content}
+{/* Chat Messages */}
+<div style={{ marginBottom: '20px' }}>
+  {messages.map((msg, i) => (
+    <div 
+      key={i} 
+      style={{ 
+        ...styles.messageContainer,
+        backgroundColor: msg.role === 'user' ? '#e2f8e2' : '#f0f0f0',
+        color: 'black', // Explicitly set text color to black
+        fontSize: isMobile ? '16px' : '18px' // Ensure readable font size
+      }}
+    >
+      <strong style={{ color: 'black' }}>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
+      {msg.content}
+      {/* Only show feedback buttons for coach responses */}
+      {msg.role === 'assistant' && (
+        <div style={{
+          marginTop: '10px',
+          display: 'flex',
+          gap: '10px',
+          justifyContent: 'flex-end'
+        }}>
+          <button
+            onClick={() => handleFeedback(i, true)}
+            style={{
+              padding: '6px 12px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '15px',
+              cursor: 'pointer',
+              fontSize: '12px'
+            }}
+          >
+            👍 Helpful
+          </button>
+          <button
+            onClick={() => handleFeedback(i, false)}
+            style={{
+              padding: '6px 12px',
+              backgroundColor: '#f0f0f0',
+              color: '#666',
+              border: '1px solid #ddd',
+              borderRadius: '15px',
+              cursor: 'pointer',
+              fontSize: '12px'
+            }}
+          >
+            👎 Not Helpful
+          </button>
         </div>
-        ))}
+      )}
+    </div>
+  ))}
+</div>
         
         {/* Typing Indicator */}
         {isTyping && (
