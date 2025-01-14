@@ -85,37 +85,13 @@ export default function Home() {
     }
 
     try {
-        // Log additional debug info
-        console.group('Google Analytics Debug');
-        console.log('Window location:', window.location.href);
-        console.log('Referrer:', document.referrer);
-        console.log('GA Tracking ID:', process.env.NEXT_PUBLIC_GA_ID);
-
-        // Attempt multiple tracking methods
-        if (typeof window !== 'undefined') {
-            // Standard gtag method
-            if (window.gtag) {
-                window.gtag('event', 'message_feedback', {
-                    'event_category': 'User Interaction',
-                    'event_label': isHelpful ? 'helpful' : 'not_helpful',
-                    'value': messageIndex,
-                    'skill_level': skillLevel || 'not_specified'
-                });
-                console.log('GA event sent via gtag');
-            }
-
-            // Fallback tracking method
-            if (window._gaq) {
-                window._gaq.push(['_trackEvent', 
-                    'User Interaction', 
-                    'message_feedback', 
-                    isHelpful ? 'helpful' : 'not_helpful'
-                ]);
-                console.log('GA event sent via _gaq');
-            }
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('event', 'message_feedback', {
+                'feedback_type': isHelpful ? 'helpful' : 'not_helpful',
+                'message_index': messageIndex,
+                'skill_level': skillLevel || 'not_specified'
+            });
         }
-
-        console.groupEnd();
     } catch (err) {
         console.error('Error tracking feedback:', err);
     }
