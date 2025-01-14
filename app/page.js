@@ -574,7 +574,7 @@ try {
             onClick={() => handleFeedback(i, false)}
             style={{
                 padding: '6px 12px',
-                backgroundColor: feedbackGiven[i] === 'not_helpful' ? '#e74c3c' : '#f0f0f0',
+                backgroundColor: feedbackGiven[i] === 'not_helpful' ? '#ff8080' : '#f0f0f0',
                 color: feedbackGiven[i] === 'not_helpful' ? 'white' : '#666',
                 border: '1px solid #ddd',
                 borderRadius: '15px',
