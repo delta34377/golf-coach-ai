@@ -85,6 +85,11 @@ export default function Home() {
     }
 
     try {
+        // Log window and gtag status for debugging
+        console.log('Window exists:', typeof window !== 'undefined');
+        console.log('Gtag exists:', typeof window?.gtag);
+        console.log('GA ID:', process.env.NEXT_PUBLIC_GA_ID);
+
         // Enhanced logging for debugging
         console.log('Feedback Tracking Details', {
             messageIndex,
@@ -101,12 +106,16 @@ export default function Home() {
 
         // Additional detailed tracking with gtag
         if (typeof window !== 'undefined' && window.gtag) {
+            console.log('Attempting to send GA event');
             window.gtag('event', 'message_feedback', {
                 'event_category': 'User Interaction',
                 'event_label': isHelpful ? 'helpful' : 'not_helpful',
                 'value': messageIndex,
                 'skill_level': skillLevel || 'not_specified'
             });
+            console.log('GA event sent successfully');
+        } else {
+            console.warn('Google Analytics tracking not available');
         }
     } catch (err) {
         console.error('Error tracking feedback:', err);
@@ -429,6 +438,23 @@ try {
   
   {/* Schema.org structured data */}
   <SchemaData />
+    {/* Google Analytics Script */}
+    <script
+    async
+    src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+  />
+  <script
+    dangerouslySetInnerHTML={{
+      __html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+          page_path: window.location.pathname,
+        });
+      `,
+    }}
+  />
 </Head>
 
       <main style={{
