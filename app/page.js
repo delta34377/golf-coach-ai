@@ -81,29 +81,36 @@ export default function Home() {
   const handleFeedback = (messageIndex, isHelpful) => {
     // Prevent multiple feedback on the same message
     if (feedbackGiven[messageIndex]) {
-      return;
+        return;
     }
 
-    // Track the feedback
+    // Track the feedback with console log for debugging
     try {
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'feedback', {
-          'event_category': 'Message Feedback',
-          'event_label': isHelpful ? 'helpful' : 'not_helpful',
-          'message_index': messageIndex,
-          'skill_level': skillLevel || 'not_specified'
+        console.log('Attempting to track feedback:', {
+            event_category: 'Message Feedback',
+            event_label: isHelpful ? 'helpful' : 'not_helpful',
+            message_index: messageIndex,
+            skill_level: skillLevel || 'not_specified'
         });
-      }
+
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('event', 'feedback_click', {  // Changed event name to be more specific
+                event_category: 'Message Feedback',
+                event_label: isHelpful ? 'helpful' : 'not_helpful',
+                message_index: messageIndex,
+                skill_level: skillLevel || 'not_specified'
+            });
+        }
     } catch (err) {
-      console.error('Error tracking feedback:', err);
+        console.error('Error tracking feedback:', err);
     }
 
     // Mark this message as having received feedback
     setFeedbackGiven(prev => ({
-      ...prev,
-      [messageIndex]: true
+        ...prev,
+        [messageIndex]: true
     }));
-  };
+};
 
   // Responsive design check
   useEffect(() => {
