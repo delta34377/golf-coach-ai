@@ -645,7 +645,7 @@ try {
       marginTop: '20px',
       color: '#888' 
     }}>
-      © {new Date().getFullYear()} Coach Chip | AI-Powered Golf Instruction
+      © {new Date().getFullYear()} Coach Chip v1.0 | AI-Powered Golf Instruction
     </p>
   </div>
 </footer>
