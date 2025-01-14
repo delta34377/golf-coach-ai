@@ -85,14 +85,21 @@ export default function Home() {
     }
 
     try {
-        // Comprehensive logging
-        console.log('Tracking feedback', {
-            isHelpful,
+        // Enhanced logging for debugging
+        console.log('Feedback Tracking Details', {
             messageIndex,
+            isHelpful,
             skillLevel: skillLevel || 'not_specified'
         });
 
-        // Use gtag with correct event parameters
+        // Track event using the existing trackEvent function
+        trackEvent(
+            'User Interaction', 
+            'message_feedback', 
+            isHelpful ? 'helpful' : 'not_helpful'
+        );
+
+        // Additional detailed tracking with gtag
         if (typeof window !== 'undefined' && window.gtag) {
             window.gtag('event', 'message_feedback', {
                 'event_category': 'User Interaction',
@@ -101,15 +108,15 @@ export default function Home() {
                 'skill_level': skillLevel || 'not_specified'
             });
         }
-
-        // Update state to track feedback with more detail
-        setFeedbackGiven(prev => ({
-            ...prev,
-            [messageIndex]: isHelpful ? 'helpful' : 'not_helpful'
-        }));
     } catch (err) {
         console.error('Error tracking feedback:', err);
     }
+
+    // Update state to track feedback
+    setFeedbackGiven(prev => ({
+        ...prev,
+        [messageIndex]: isHelpful ? 'helpful' : 'not_helpful'
+    }));
 };
 
   // Responsive design check
