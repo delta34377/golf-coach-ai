@@ -84,32 +84,32 @@ export default function Home() {
         return;
     }
 
-    // Track the feedback with console log for debugging
     try {
-        console.log('Attempting to track feedback:', {
-            event_category: 'Message Feedback',
-            event_label: isHelpful ? 'helpful' : 'not_helpful',
-            message_index: messageIndex,
-            skill_level: skillLevel || 'not_specified'
+        // Comprehensive logging
+        console.log('Tracking feedback', {
+            isHelpful,
+            messageIndex,
+            skillLevel: skillLevel || 'not_specified'
         });
 
+        // Use gtag with correct event parameters
         if (typeof window !== 'undefined' && window.gtag) {
-            window.gtag('event', 'feedback_click', {  // Changed event name to be more specific
-                event_category: 'Message Feedback',
-                event_label: isHelpful ? 'helpful' : 'not_helpful',
-                message_index: messageIndex,
-                skill_level: skillLevel || 'not_specified'
+            window.gtag('event', 'message_feedback', {
+                'event_category': 'User Interaction',
+                'event_label': isHelpful ? 'helpful' : 'not_helpful',
+                'value': messageIndex,
+                'skill_level': skillLevel || 'not_specified'
             });
         }
+
+        // Update state to track feedback with more detail
+        setFeedbackGiven(prev => ({
+            ...prev,
+            [messageIndex]: isHelpful ? 'helpful' : 'not_helpful'
+        }));
     } catch (err) {
         console.error('Error tracking feedback:', err);
     }
-
-    // Mark this message as having received feedback
-    setFeedbackGiven(prev => ({
-        ...prev,
-        [messageIndex]: true
-    }));
 };
 
   // Responsive design check
@@ -545,43 +545,51 @@ try {
       <strong style={{ color: 'black' }}>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
       {msg.content}
      {/* Only show feedback buttons for coach responses (excluding initial message) */}
-{msg.role === 'assistant' && i !== 0 && (
-        <div style={{
-          marginTop: '10px',
-          display: 'flex',
-          gap: '10px',
-          justifyContent: 'flex-end'
-        }}>
-          <button
+     {msg.role === 'assistant' && i !== 0 && (
+    <div style={{
+        marginTop: '10px',
+        display: 'flex',
+        gap: '10px',
+        justifyContent: 'flex-end'
+    }}>
+        <button
             onClick={() => handleFeedback(i, true)}
             style={{
-              padding: '6px 12px',
-              backgroundColor: '#4CAF50',
-              color: 'white',
-              border: 'none',
-              borderRadius: '15px',
-              cursor: 'pointer',
-              fontSize: '12px'
+                padding: '6px 12px',
+                backgroundColor: feedbackGiven[i] === 'helpful' ? '#2ecc71' : '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '15px',
+                cursor: feedbackGiven[i] ? 'default' : 'pointer',
+                fontSize: '12px',
+                transform: feedbackGiven[i] === 'helpful' ? 'scale(1.1)' : 'scale(1)',
+                transition: 'all 0.2s ease',
+                opacity: feedbackGiven[i] && feedbackGiven[i] !== 'helpful' ? 0.5 : 1
             }}
-          >
-            👍 Helpful
-          </button>
-          <button
+            disabled={!!feedbackGiven[i]}
+        >
+            {feedbackGiven[i] === 'helpful' ? '✓ Helpful' : '👍 Helpful'}
+        </button>
+        <button
             onClick={() => handleFeedback(i, false)}
             style={{
-              padding: '6px 12px',
-              backgroundColor: '#f0f0f0',
-              color: '#666',
-              border: '1px solid #ddd',
-              borderRadius: '15px',
-              cursor: 'pointer',
-              fontSize: '12px'
+                padding: '6px 12px',
+                backgroundColor: feedbackGiven[i] === 'not_helpful' ? '#e74c3c' : '#f0f0f0',
+                color: feedbackGiven[i] === 'not_helpful' ? 'white' : '#666',
+                border: '1px solid #ddd',
+                borderRadius: '15px',
+                cursor: feedbackGiven[i] ? 'default' : 'pointer',
+                fontSize: '12px',
+                transform: feedbackGiven[i] === 'not_helpful' ? 'scale(1.1)' : 'scale(1)',
+                transition: 'all 0.2s ease',
+                opacity: feedbackGiven[i] && feedbackGiven[i] !== 'not_helpful' ? 0.5 : 1
             }}
-          >
-            👎 Not Helpful
-          </button>
-        </div>
-      )}
+            disabled={!!feedbackGiven[i]}
+        >
+            {feedbackGiven[i] === 'not_helpful' ? '✓ Not Helpful' : '👎 Not Helpful'}
+        </button>
+    </div>
+)}
     </div>
   ))}
 </div>
