@@ -598,7 +598,6 @@ try {
             <span>Coach is typing...</span>
           </div>
         )}
-      </div>
 
       {/* Input Form */}
       <form onSubmit={handleSubmit} style={styles.inputForm}>
