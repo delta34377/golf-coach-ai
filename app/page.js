@@ -85,26 +85,19 @@ export default function Home() {
     }
 
     try {
-        if (typeof window !== 'undefined' && window.gtag) {
-            window.gtag('event', 'response_feedback', {
-                'event_category': 'Engagement',
-                'feedback_type': isHelpful ? 'helpful' : 'not_helpful',
-                'message_index': messageIndex,
-                'skill_level': skillLevel || 'not_specified',
-                'message_content': messages[messageIndex].content.substring(0, 100) // First 100 chars of message
-            });
-            
-            // Log this for debugging
-            console.log('Feedback sent:', {
-                'event': 'response_feedback',
-                'feedback_type': isHelpful ? 'helpful' : 'not_helpful',
-                'message_index': messageIndex,
-                'skill_level': skillLevel || 'not_specified'
-            });
-        }
-    } catch (err) {
-        console.error('Error tracking feedback:', err);
-    }
+      if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'response_feedback', {
+              'event_category': 'Engagement',
+              'feedback_type': isHelpful ? 'helpful' : 'not_helpful',
+              'message_index': messageIndex,
+              'skill_level': skillLevel || 'not_specified',
+              'question_text': messages[messageIndex - 1].content.substring(0, 100), // The user's question
+              'response_text': messages[messageIndex].content.substring(0, 100) // The AI's response
+          });
+      }
+  } catch (err) {
+      console.error('Error tracking feedback:', err);
+  }
 
     // Update state to track feedback
     setFeedbackGiven(prev => ({
