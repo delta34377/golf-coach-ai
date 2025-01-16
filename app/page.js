@@ -86,20 +86,28 @@ export default function Home() {
 
     try {
       if (typeof window !== 'undefined' && window.gtag) {
-          const questionAsked = messages[messageIndex - 1].content;
-          const isQuickQuestion = allQuickQuestions.includes(questionAsked);
+          // Get the question and response
+          const questionText = messages[messageIndex - 1].content;
+          const responseText = messages[messageIndex].content;
           
           window.gtag('event', 'feedback_analysis', {
               'feedback_result': isHelpful ? 'helpful' : 'not_helpful',
               'skill_level': skillLevel || 'not_specified',
-              'question_type': isQuickQuestion ? 'quick_question' : 'custom_question',
-              'question_category': isQuickQuestion ? 'preset' : 'user_input',
+              'question_asked': questionText,  // The actual question
+              'response_given': responseText.substring(0, 100),  // First 100 chars of response
               'full_interaction': `${skillLevel || 'no_level'}_${isHelpful ? 'helpful' : 'not_helpful'}`
+          });
+          
+          // Debug log
+          console.log('Feedback Details:', {
+              question: questionText,
+              wasHelpful: isHelpful,
+              skillLevel: skillLevel || 'not_specified'
           });
       }
   } catch (err) {
       console.error('Error tracking feedback:', err);
-  } 
+  }
 
     // Update state to track feedback
     setFeedbackGiven(prev => ({
