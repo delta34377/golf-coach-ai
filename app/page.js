@@ -86,7 +86,17 @@ export default function Home() {
 
     try {
         if (typeof window !== 'undefined' && window.gtag) {
-            window.gtag('event', 'message_feedback', {
+            window.gtag('event', 'response_feedback', {
+                'event_category': 'Engagement',
+                'feedback_type': isHelpful ? 'helpful' : 'not_helpful',
+                'message_index': messageIndex,
+                'skill_level': skillLevel || 'not_specified',
+                'message_content': messages[messageIndex].content.substring(0, 100) // First 100 chars of message
+            });
+            
+            // Log this for debugging
+            console.log('Feedback sent:', {
+                'event': 'response_feedback',
                 'feedback_type': isHelpful ? 'helpful' : 'not_helpful',
                 'message_index': messageIndex,
                 'skill_level': skillLevel || 'not_specified'
@@ -213,9 +223,11 @@ useEffect(() => {
 // Google Analytics tracking
 try {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'question_asked', {
-      'event_category': 'User Interaction',
-      'event_label': messageToSend
+    window.gtag('event', 'golf_question', {  // Changed from 'question_asked'
+      'event_category': 'Interaction',
+      'question_type': quickQuestion ? 'quick_question' : 'custom_question',
+      'question_text': messageToSend,
+      'skill_level': skillLevel || 'not_specified'
     });
   }
 } catch (err) {
