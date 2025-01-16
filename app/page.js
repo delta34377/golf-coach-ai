@@ -86,18 +86,20 @@ export default function Home() {
 
     try {
       if (typeof window !== 'undefined' && window.gtag) {
-          window.gtag('event', 'response_feedback', {
-              'event_category': 'Engagement',
-              'feedback_type': isHelpful ? 'helpful' : 'not_helpful',
-              'message_index': messageIndex,
+          const questionAsked = messages[messageIndex - 1].content;
+          const isQuickQuestion = allQuickQuestions.includes(questionAsked);
+          
+          window.gtag('event', 'feedback_analysis', {
+              'feedback_result': isHelpful ? 'helpful' : 'not_helpful',
               'skill_level': skillLevel || 'not_specified',
-              'question_text': messages[messageIndex - 1].content.substring(0, 100), // The user's question
-              'response_text': messages[messageIndex].content.substring(0, 100) // The AI's response
+              'question_type': isQuickQuestion ? 'quick_question' : 'custom_question',
+              'question_category': isQuickQuestion ? 'preset' : 'user_input',
+              'full_interaction': `${skillLevel || 'no_level'}_${isHelpful ? 'helpful' : 'not_helpful'}`
           });
       }
   } catch (err) {
       console.error('Error tracking feedback:', err);
-  }
+  } 
 
     // Update state to track feedback
     setFeedbackGiven(prev => ({
