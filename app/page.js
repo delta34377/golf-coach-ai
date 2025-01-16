@@ -86,24 +86,19 @@ export default function Home() {
 
     try {
       if (typeof window !== 'undefined' && window.gtag) {
-          // Get the question and response
+          // Get the question
           const questionText = messages[messageIndex - 1].content;
-          const responseText = messages[messageIndex].content;
           
-          window.gtag('event', 'feedback_analysis', {
-              'feedback_result': isHelpful ? 'helpful' : 'not_helpful',
+          // Create more specific event name for quick visibility
+          const eventName = isHelpful ? 'helpful_response' : 'unhelpful_response';
+          
+          window.gtag('event', eventName, {
+              'question': questionText,
               'skill_level': skillLevel || 'not_specified',
-              'question_asked': questionText,  // The actual question
-              'response_given': responseText.substring(0, 100),  // First 100 chars of response
-              'full_interaction': `${skillLevel || 'no_level'}_${isHelpful ? 'helpful' : 'not_helpful'}`
+              'skill_feedback_combo': `${skillLevel || 'no_level'}_${isHelpful ? 'helpful' : 'not_helpful'}`
           });
           
-          // Debug log
-          console.log('Feedback Details:', {
-              question: questionText,
-              wasHelpful: isHelpful,
-              skillLevel: skillLevel || 'not_specified'
-          });
+          console.log(`Question "${questionText}" was marked ${isHelpful ? 'HELPFUL' : 'NOT HELPFUL'} by ${skillLevel || 'unspecified'} skill level user`);
       }
   } catch (err) {
       console.error('Error tracking feedback:', err);
