@@ -228,49 +228,55 @@ useEffect(() => {
     e?.preventDefault();
     const messageToSend = quickQuestion || input;
     
-// Google Analytics tracking
-try {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'golf_question', {  // Changed from 'question_asked'
-      'event_category': 'Interaction',
-      'question_type': quickQuestion ? 'quick_question' : 'custom_question',
-      'question_text': messageToSend,
-      'skill_level': skillLevel || 'not_specified'
-    });
-  }
-} catch (err) {
-  console.error('GA Error:', err);
-}
-
-// Log the question to Firestore
-try {
-  await logInteraction({
-    type: 'question',
-    content: messageToSend,
-    skillLevel: skillLevel
-  });
-} catch (error) {
-  console.error('Failed to log question:', error);
-}
-
+    console.log('Question asked:', messageToSend); // Log question immediately
+ 
+    // Google Analytics tracking
+    try {
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('event', 'golf_question', {
+                'event_category': 'Interaction',
+                'question_type': quickQuestion ? 'quick_question' : 'custom_question',
+                'question_text': messageToSend,
+                'skill_level': skillLevel || 'not_specified'
+            });
+        }
+    } catch (err) {
+        console.error('GA Error:', err);
+    }
+ 
+    // Log the question to Firestore
+    try {
+        await logInteraction({
+            type: 'question',
+            content: messageToSend,
+            skillLevel: skillLevel
+        });
+        console.log('Successfully logged to Firebase:', messageToSend);
+    } catch (error) {
+        console.error('Failed to log question:', error);
+    }
+ 
     if ((!messageToSend.trim() && !quickQuestion) || isLoading) return;
     if (!checkRateLimit()) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'You have reached the maximum number of requests per hour. Please try again later.',
-        tokens: 20
-      }]);
-      return;
+        setMessages(prev => [...prev, { 
+            role: 'assistant', 
+            content: 'You have reached the maximum number of requests per hour. Please try again later.',
+            tokens: 20
+        }]);
+        return;
     }
-
+ 
     setIsLoading(true);
     setIsTyping(true);
-
+ 
     const userMessage = { 
-      role: 'user', 
-      content: messageToSend,
-      tokens: countTokens(messageToSend)
+        role: 'user', 
+        content: messageToSend,
+        tokens: countTokens(messageToSend)
     };
+
+
+
 
     // Update messages with pruning
     const updatedMessages = pruneConversation([...messages, userMessage]);
