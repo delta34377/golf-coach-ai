@@ -780,13 +780,20 @@ useEffect(() => {
   marginTop: '20px',
   padding: '10px',
   borderTop: '1px solid #eee',
-  textAlign: 'center'
+  textAlign: 'center',
+  lineHeight: '1.6'
 }}>
-  Disclaimer: Coach Chip is an AI-powered golf instruction tool designed for educational purposes only. 
+  Disclaimer: Coach Chip is an AI-powered golf instruction tool designed exclusively for golf-related educational purposes. 
   The advice and suggestions provided should not be considered a substitute for professional in-person golf instruction. 
   Users should exercise their own judgment and assume all risks when implementing any golf techniques or advice. 
   We make no guarantees about the accuracy, reliability, or effectiveness of the guidance provided. 
-  Always consult with a certified golf professional for personalized instruction.
+  
+  Coach Chip is not designed or intended to provide medical, legal, financial, or any non-golf-related advice. 
+  Any attempts to manipulate the system to provide advice outside of golf instruction are strictly prohibited and may result in termination of access. 
+  We are not responsible for any misuse of the system or unintended responses. Users agree to use this tool solely for its intended purpose of golf instruction.
+  
+  The service is provided "as is" without any warranties, express or implied. We disclaim all liability for any damages or losses arising from the use or misuse of this service. 
+  Always consult with appropriate professionals for specific advice in their respective fields.
 </p>
 </footer>
     </main>
