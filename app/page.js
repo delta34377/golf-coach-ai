@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { logInteraction } from '../lib/trackInteraction';
 
 const trackEvent = (category, action, label) => {
   if (typeof window !== 'undefined' && window.gtag) {
@@ -78,13 +79,22 @@ export default function Home() {
   const MAX_TOTAL_TOKENS = 3000; // OpenAI token limit
   const MAX_MESSAGES = 10; // Limit conversation history
 
-  const handleFeedback = (messageIndex, isHelpful) => {
+  const handleFeedback = async (messageIndex, isHelpful) => {
     // Prevent multiple feedback on the same message
     if (feedbackGiven[messageIndex]) {
         return;
     }
 
     try {
+      // Log feedback to Firestore
+      await logInteraction({
+        type: 'feedback',
+        content: messages[messageIndex].content,
+        skillLevel: skillLevel,
+        isHelpful: isHelpful
+      });
+
+      // Existing Google Analytics tracking
       if (typeof window !== 'undefined' && window.gtag) {
           // Get the question
           const questionText = messages[messageIndex - 1].content;
@@ -100,15 +110,15 @@ export default function Home() {
           
           console.log(`Question "${questionText}" was marked ${isHelpful ? 'HELPFUL' : 'NOT HELPFUL'} by ${skillLevel || 'unspecified'} skill level user`);
       }
-  } catch (err) {
-      console.error('Error tracking feedback:', err);
-  }
 
-    // Update state to track feedback
-    setFeedbackGiven(prev => ({
-        ...prev,
-        [messageIndex]: isHelpful ? 'helpful' : 'not_helpful'
-    }));
+      // Update state to track feedback
+      setFeedbackGiven(prev => ({
+          ...prev,
+          [messageIndex]: isHelpful ? 'helpful' : 'not_helpful'
+      }));
+  } catch (error) {
+      console.error('Failed to log feedback:', error);
+  }
 };
 
   // Responsive design check
@@ -230,6 +240,17 @@ try {
   }
 } catch (err) {
   console.error('GA Error:', err);
+}
+
+// Log the question to Firestore
+try {
+  await logInteraction({
+    type: 'question',
+    content: messageToSend,
+    skillLevel: skillLevel
+  });
+} catch (error) {
+  console.error('Failed to log question:', error);
 }
 
     if ((!messageToSend.trim() && !quickQuestion) || isLoading) return;
