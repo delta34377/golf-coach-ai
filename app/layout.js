@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Coach Chip | AI Golf Coach - Instant Golf Tips",
   description: "Get instant, personalized golf coaching from Coach Chip AI. Improve your swing, putting, and overall game with 24/7 access to AI-powered golf instruction.",
+  icons: {
+    icon: [
+      { url: '🏌️‍♂️', type: 'image/svg+xml' }  // emoji as favicon
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -46,12 +51,3 @@ export default function RootLayout({ children }) {
   );
 }
 
-export const metadata = {
-  title: "Coach Chip | AI Golf Coach - Instant Golf Tips",
-  description: "Get instant, personalized golf coaching from Coach Chip AI. Improve your swing, putting, and overall game with 24/7 access to AI-powered golf instruction.",
-  icons: {
-    icon: [
-      { url: '🏌️‍♂️', type: 'image/svg+xml' }  // emoji as favicon
-    ],
-  },
-};
