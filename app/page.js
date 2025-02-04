@@ -774,6 +774,20 @@ useEffect(() => {
       © {new Date().getFullYear()} Coach Chip v1.0 | AI-Powered Golf Instruction
     </p>
   </div>
+  <p style={{ 
+  fontSize: '12px', 
+  color: '#666',
+  marginTop: '20px',
+  padding: '10px',
+  borderTop: '1px solid #eee',
+  textAlign: 'center'
+}}>
+  Disclaimer: Coach Chip is an AI-powered golf instruction tool designed for educational purposes only. 
+  The advice and suggestions provided should not be considered a substitute for professional in-person golf instruction. 
+  Users should exercise their own judgment and assume all risks when implementing any golf techniques or advice. 
+  We make no guarantees about the accuracy, reliability, or effectiveness of the guidance provided. 
+  Always consult with a certified golf professional for personalized instruction.
+</p>
 </footer>
     </main>
 </>
