@@ -58,14 +58,14 @@ const NewsletterSignup = () => {
         {!submitted ? (
           <>
             <h2 className="text-2xl font-bold text-green-700 mb-4">
-              Get Your Free Golf Tips Package
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Sign up for our newsletter and receive:
-              • 10 Pro-Level Driver Tips
-              • Mental Game Cheat Sheet
-              • Weekly Swing Analysis Tips
-            </p>
+  Improve Your Golf Game Today
+</h2>
+<p className="text-gray-600 mb-6">
+  Join our newsletter for:
+  • Simple tips to fix common mistakes
+  • Easy-to-follow practice drills
+  • Quick ways to lower your scores
+</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="email"
@@ -84,12 +84,12 @@ const NewsletterSignup = () => {
             </form>
           </>
         ) : (
-          <div className="text-center py-8">
+            <div className="text-center py-8">
             <h3 className="text-xl font-bold text-green-700 mb-4">
-              Thank you for signing up!
+              Welcome to the Coach Chip Community!
             </h3>
             <p className="text-gray-600">
-              Check your email for your free golf tips package.
+              You'll receive our latest golf tips and exclusive content soon.
             </p>
           </div>
         )}
