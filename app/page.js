@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { logInteraction } from '../lib/trackInteraction';
+import NewsletterSignup from '../components/NewsletterSignup';
 
 const trackEvent = (category, action, label) => {
   if (typeof window !== 'undefined' && window.gtag) {
@@ -698,7 +699,9 @@ useEffect(() => {
           }
         }
       `}</style>
-      {/* Footer Section */}
+
+<NewsletterSignup />
+
 {/* Footer Section */}
 <footer style={{
   marginTop: '60px',
