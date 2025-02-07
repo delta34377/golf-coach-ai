@@ -13,7 +13,7 @@ const NewsletterSignup = () => {
       if (!localStorage.getItem('newsletter_shown')) {
         setIsVisible(true);
       }
-    }, 45000);
+    }, 20000);
 
     const handleScroll = () => {
       if (!localStorage.getItem('newsletter_shown')) {
