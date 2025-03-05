@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { logInteraction } from '../lib/trackInteraction';
-import NewsletterSignup from '../components/NewsletterSignup';
+import GatedContent from '../components/GatedContent';
 
 const trackEvent = (category, action, label) => {
   if (typeof window !== 'undefined' && window.gtag) {
@@ -58,6 +58,7 @@ export default function Home() {
 
   // State management
   const [messages, setMessages] = useState([initialMessage]);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [skillLevel, setSkillLevel] = useState('');
@@ -122,21 +123,30 @@ export default function Home() {
   }
 };
 
-  // Responsive design check
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    // Check initial load
-    checkMobile();
-    
-    // Add resize listener
-    window.addEventListener('resize', checkMobile);
-    
-    // Cleanup listener
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+// Responsive design check
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+  
+  // Check initial load
+  checkMobile();
+  
+  // Add resize listener
+  window.addEventListener('resize', checkMobile);
+  
+  // Cleanup listener
+  return () => window.removeEventListener('resize', checkMobile);
+}, []);
+
+// Registration status check - separate useEffect
+useEffect(() => {
+  // Check if user is already registered
+  if (typeof window !== 'undefined') {
+    const registered = localStorage.getItem('registered') === 'true';
+    setIsRegistered(registered);
+  }
+}, []);
 
     const allQuickQuestions = [
     // Swing Mechanics
@@ -584,58 +594,70 @@ useEffect(() => {
       style={{ 
         ...styles.messageContainer,
         backgroundColor: msg.role === 'user' ? '#e2f8e2' : '#f0f0f0',
-        color: 'black', // Explicitly set text color to black
-        fontSize: isMobile ? '16px' : '18px' // Ensure readable font size
+        color: 'black',
+        fontSize: isMobile ? '16px' : '18px'
       }}
     >
       <strong style={{ color: 'black' }}>{msg.role === 'user' ? 'You: ' : 'Coach: '}</strong>
-      {msg.content}
-     {/* Only show feedback buttons for coach responses (excluding initial message) */}
-     {msg.role === 'assistant' && i !== 0 && (
-    <div style={{
-        marginTop: '10px',
-        display: 'flex',
-        gap: '10px',
-        justifyContent: 'flex-end'
-    }}>
-        <button
+      
+      {/* Check if it's a coach response (not the first message) and user isn't registered */}
+      {msg.role === 'assistant' && i !== 0 && !isRegistered ? (
+        <GatedContent 
+          isPreview={true}
+          onRegister={() => setIsRegistered(true)}
+        >
+          {msg.content}
+        </GatedContent>
+      ) : (
+        msg.content
+      )}
+      
+      {/* Only show feedback buttons for coach responses (excluding initial message) */}
+      {msg.role === 'assistant' && i !== 0 && (
+        <div style={{
+          marginTop: '10px',
+          display: 'flex',
+          gap: '10px',
+          justifyContent: 'flex-end'
+        }}>
+          <button
             onClick={() => handleFeedback(i, true)}
             style={{
-                padding: '6px 12px',
-                backgroundColor: feedbackGiven[i] === 'helpful' ? '#2ecc71' : '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '15px',
-                cursor: feedbackGiven[i] ? 'default' : 'pointer',
-                fontSize: '12px',
-                transform: feedbackGiven[i] === 'helpful' ? 'scale(1.1)' : 'scale(1)',
-                transition: 'all 0.2s ease',
-                opacity: feedbackGiven[i] && feedbackGiven[i] !== 'helpful' ? 0.5 : 1
+              padding: '6px 12px',
+              backgroundColor: feedbackGiven[i] === 'helpful' ? '#2ecc71' : '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '15px',
+              cursor: feedbackGiven[i] ? 'default' : 'pointer',
+              fontSize: '12px',
+              transform: feedbackGiven[i] === 'helpful' ? 'scale(1.1)' : 'scale(1)',
+              transition: 'all 0.2s ease',
+              opacity: feedbackGiven[i] && feedbackGiven[i] !== 'helpful' ? 0.5 : 1
             }}
             disabled={!!feedbackGiven[i]}
-        >
+          >
             {feedbackGiven[i] === 'helpful' ? '✓ Helpful' : '👍 Helpful'}
-        </button>
-        <button
+          </button>
+          <button
             onClick={() => handleFeedback(i, false)}
             style={{
-                padding: '6px 12px',
-                backgroundColor: feedbackGiven[i] === 'not_helpful' ? '#ff8080' : '#f0f0f0',
-                color: feedbackGiven[i] === 'not_helpful' ? 'white' : '#666',
-                border: '1px solid #ddd',
-                borderRadius: '15px',
-                cursor: feedbackGiven[i] ? 'default' : 'pointer',
-                fontSize: '12px',
-                transform: feedbackGiven[i] === 'not_helpful' ? 'scale(1.1)' : 'scale(1)',
-                transition: 'all 0.2s ease',
-                opacity: feedbackGiven[i] && feedbackGiven[i] !== 'not_helpful' ? 0.5 : 1
+              padding: '6px 12px',
+              backgroundColor: feedbackGiven[i] === 'not_helpful' ? '#ff8080' : '#f0f0f0',
+              color: feedbackGiven[i] === 'not_helpful' ? 'white' : '#666',
+              border: '1px solid #ddd',
+              borderRadius: '15px',
+              cursor: feedbackGiven[i] ? 'default' : 'pointer',
+              fontSize: '12px',
+              transform: feedbackGiven[i] === 'not_helpful' ? 'scale(1.1)' : 'scale(1)',
+              transition: 'all 0.2s ease',
+              opacity: feedbackGiven[i] && feedbackGiven[i] !== 'not_helpful' ? 0.5 : 1
             }}
             disabled={!!feedbackGiven[i]}
-        >
+          >
             {feedbackGiven[i] === 'not_helpful' ? '✓ Not Helpful' : '👎 Not Helpful'}
-        </button>
-    </div>
-)}
+          </button>
+        </div>
+      )}
     </div>
   ))}
 </div>
@@ -700,7 +722,6 @@ useEffect(() => {
         }
       `}</style>
 
-<NewsletterSignup />
 
 {/* Footer Section */}
 <footer style={{
