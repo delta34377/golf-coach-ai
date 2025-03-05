@@ -1,19 +1,36 @@
 import { useState } from 'react';
+import { db } from '../lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { logInteraction } from '../lib/trackInteraction';
 
 export default function GatedContent({ children, isPreview, onRegister }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
-    // Log the registration
     try {
+      console.log('Starting registration process for:', name, email);
+      
+      // Log to separate users collection
+      const usersRef = collection(db, 'users');
+      const userDoc = {
+        name: name,
+        email: email,
+        skillLevel: localStorage.getItem('skillLevel') || 'not_specified',
+        registeredAt: serverTimestamp()
+      };
+      
+      const docRef = await addDoc(usersRef, userDoc);
+      console.log('User registered with ID:', docRef.id);
+      
+      // Also log as an interaction for analytics
       await logInteraction({
         type: 'registration',
         content: `User registered: ${name}, ${email}`,
-        skillLevel: 'not_specified'
       });
       
       // Store in localStorage to remember the user
@@ -23,8 +40,20 @@ export default function GatedContent({ children, isPreview, onRegister }) {
       
       // Call the parent function to update state
       onRegister();
+      
+      // Track in Google Analytics if available
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'user_registration', {
+          'event_category': 'Conversion',
+          'user_email': email,
+          'user_name': name
+        });
+      }
     } catch (error) {
-      console.error('Failed to log registration:', error);
+      console.error('Failed to register user:', error);
+      alert('Registration failed. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
   
@@ -47,43 +76,70 @@ export default function GatedContent({ children, isPreview, onRegister }) {
       </div>
       
       {/* Registration form */}
-      <div className="bg-blue-50 p-6">
-        <div className="text-center mb-4">
-          <h3 className="text-lg font-semibold text-blue-800">Get Your Complete Answer</h3>
-          <p className="text-sm text-blue-600 mt-1">
+      <div style={{ backgroundColor: '#EDF7ED', padding: '24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#2E7D32', marginBottom: '8px' }}>
+            Get Your Complete Answer
+          </h3>
+          <p style={{ fontSize: '14px', color: '#1B5E20', margin: '8px 0' }}>
             Register for free to view the full response and unlock unlimited AI golf coaching
           </p>
         </div>
         
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-          <div className="mb-3">
+        <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '12px' }}>
             <input
               type="text"
               placeholder="First Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{ 
+                width: '100%', 
+                padding: '12px', 
+                border: '1px solid #AAA', 
+                borderRadius: '5px',
+                fontSize: '16px'
+              }}
               required
+              disabled={isSubmitting}
             />
           </div>
-          <div className="mb-4">
+          <div style={{ marginBottom: '16px' }}>
             <input
               type="email"
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{ 
+                width: '100%', 
+                padding: '12px', 
+                border: '1px solid #AAA', 
+                borderRadius: '5px',
+                fontSize: '16px'
+              }}
               required
+              disabled={isSubmitting}
             />
           </div>
-          <div className="text-center">
+          <div style={{ textAlign: 'center' }}>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded"
+              disabled={isSubmitting}
+              style={{
+                width: '100%',
+                backgroundColor: isSubmitting ? '#86C188' : '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                padding: '12px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                cursor: isSubmitting ? 'default' : 'pointer'
+              }}
             >
-              See Full Answer
+              {isSubmitting ? 'Registering...' : 'See Full Answer'}
             </button>
-            <p className="text-xs mt-3 text-gray-500">
+            <p style={{ fontSize: '12px', marginTop: '12px', color: '#666' }}>
               By registering, you agree to receive golf tips and updates. 
               We respect your privacy and will never share your information.
             </p>
