@@ -838,16 +838,16 @@ useEffect(() => {
           marginBottom: '15px',
           fontSize: '24px'
         }}>
-          📱
+          📚
         </div>
         <h3 style={{
           fontSize: '18px',
           fontWeight: 'bold',
           marginBottom: '10px',
           color: '#2c3e50'
-        }}>Always Available</h3>
+        }}>Expert Knowledge</h3>
         <p style={{ color: '#666', lineHeight: '1.5' }}>
-          Get help with your golf game 24/7, whether you're at home or at the driving range.
+          Access insights from thousands of golf resources, professional techniques, and teaching methodologies in one place.
         </p>
       </div>
     </div>
