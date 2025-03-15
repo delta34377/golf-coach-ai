@@ -722,6 +722,137 @@ useEffect(() => {
         }
       `}</style>
 
+{/* Feature Cards Section */}
+<div style={{
+  maxWidth: '800px',
+  margin: '60px auto 30px auto',
+  padding: '20px',
+  backgroundColor: '#f4f7f6',
+  borderRadius: '10px',
+}}>
+  <h2 style={{
+    fontSize: '24px',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: '25px',
+    color: '#2c3e50'
+  }}>How Coach Chip Helps Your Game</h2>
+  
+  <div style={{
+    display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
+    gap: '20px',
+    justifyContent: 'center'
+  }}>
+    {/* Card 1 */}
+    <div style={{
+      backgroundColor: 'white',
+      borderRadius: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+      overflow: 'hidden',
+      flex: '1',
+      minWidth: isMobile ? '100%' : '0'
+    }}>
+      <div style={{ height: '3px', backgroundColor: '#4CAF50' }}></div>
+      <div style={{ padding: '20px' }}>
+        <div style={{
+          width: '48px',
+          height: '48px',
+          backgroundColor: '#e8f5e9',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '15px',
+          fontSize: '24px'
+        }}>
+          🏌️
+        </div>
+        <h3 style={{
+          fontSize: '18px',
+          fontWeight: 'bold',
+          marginBottom: '10px',
+          color: '#2c3e50'
+        }}>Personalized Advice</h3>
+        <p style={{ color: '#666', lineHeight: '1.5' }}>
+          Get custom tips based on your skill level and specific challenges you face on the course.
+        </p>
+      </div>
+    </div>
+    
+    {/* Card 2 */}
+    <div style={{
+      backgroundColor: 'white',
+      borderRadius: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+      overflow: 'hidden',
+      flex: '1',
+      minWidth: isMobile ? '100%' : '0'
+    }}>
+      <div style={{ height: '3px', backgroundColor: '#4CAF50' }}></div>
+      <div style={{ padding: '20px' }}>
+        <div style={{
+          width: '48px',
+          height: '48px',
+          backgroundColor: '#e8f5e9',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '15px',
+          fontSize: '24px'
+        }}>
+          📊
+        </div>
+        <h3 style={{
+          fontSize: '18px',
+          fontWeight: 'bold',
+          marginBottom: '10px',
+          color: '#2c3e50'
+        }}>Instant Feedback</h3>
+        <p style={{ color: '#666', lineHeight: '1.5' }}>
+          Ask questions anytime and receive immediate expert guidance for your golf technique.
+        </p>
+      </div>
+    </div>
+    
+    {/* Card 3 */}
+    <div style={{
+      backgroundColor: 'white',
+      borderRadius: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+      overflow: 'hidden',
+      flex: '1',
+      minWidth: isMobile ? '100%' : '0'
+    }}>
+      <div style={{ height: '3px', backgroundColor: '#4CAF50' }}></div>
+      <div style={{ padding: '20px' }}>
+        <div style={{
+          width: '48px',
+          height: '48px',
+          backgroundColor: '#e8f5e9',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '15px',
+          fontSize: '24px'
+        }}>
+          📱
+        </div>
+        <h3 style={{
+          fontSize: '18px',
+          fontWeight: 'bold',
+          marginBottom: '10px',
+          color: '#2c3e50'
+        }}>Always Available</h3>
+        <p style={{ color: '#666', lineHeight: '1.5' }}>
+          Get help with your golf game 24/7, whether you're at home or at the driving range.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
 {/* Footer Section */}
 <footer style={{
