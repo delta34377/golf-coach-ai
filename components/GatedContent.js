@@ -61,18 +61,19 @@ export default function GatedContent({ children, isPreview, onRegister }) {
     return children;
   }
   
+  // Get the first line of the content to show as preview
+  const firstLine = children.split('\n')[0];
+  const contentPreview = firstLine.length > 80 
+    ? firstLine.substring(0, 80) + '...' 
+    : firstLine + '...';
+  
   return (
     <div className="border-t relative">
-      {/* Blurred content */}
-      <div className="bg-white p-4 relative overflow-hidden" style={{ maxHeight: '150px' }}>
+      {/* First line preview */}
+      <div className="bg-white p-4 relative">
         <div className="whitespace-pre-line">
-          {children}
+          {contentPreview}
         </div>
-        {/* Gradient blur overlay */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-white"
-          style={{ top: '40px' }}
-        ></div>
       </div>
       
       {/* Registration form */}
