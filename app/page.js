@@ -538,6 +538,27 @@ useEffect(() => {
       }}>
         Your Personal AI Golf Coach
       </h2>
+      
+      <div style={{
+        maxWidth: '600px',
+        margin: '20px auto 0 auto'
+      }}>
+        <h3 style={{
+          fontSize: isMobile ? '18px' : '22px',
+          fontWeight: '600',
+          margin: '0 0 8px 0',
+          color: '#4CAF50'
+        }}>
+          Get Personalized Golf Advice
+        </h3>
+        <p style={{
+          fontSize: isMobile ? '14px' : '16px',
+          margin: 0,
+          opacity: 0.95
+        }}>
+          Ask any question about your golf game and get instant expert coaching
+        </p>
+      </div>
     </div>
   </Link>
 </header>
