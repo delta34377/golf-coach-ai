@@ -485,14 +485,14 @@ useEffect(() => {
         fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
         backgroundColor: '#f4f7f6'
       }}>
-{/* Enhanced Header */}
+{/* Clean Enhanced Header */}
 <header style={{
   backgroundColor: '#2c3e50',
   backgroundImage: 'linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9))',
   color: 'white',
-  padding: '30px 20px',
+  padding: '20px',
   borderRadius: '10px',
-  marginBottom: '25px',
+  marginBottom: '20px',
   textAlign: 'center',
   boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
 }}>
@@ -502,66 +502,75 @@ useEffect(() => {
   }}>
     <div style={{
       display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      justifyContent: 'center'
     }}>
       <div style={{
-        width: '60px',
-        height: '60px',
+        width: '45px',
+        height: '45px',
         backgroundColor: 'white',
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: '15px',
+        marginRight: '12px',
         boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
       }}>
         <span style={{
-          fontSize: '24px',
+          fontSize: '20px',
           fontWeight: 'bold',
           color: '#2c3e50'
         }}>CC</span>
       </div>
-      <h1 style={{
-        margin: 0,
-        fontSize: isMobile ? '28px' : '36px',
-        fontWeight: 600,
-        letterSpacing: '-0.5px'
-      }}>
-        Coach Chip
-      </h1>
-      <h2 style={{
-        margin: '10px 0 0',
-        fontSize: isMobile ? '16px' : '18px',
-        fontWeight: 300,
-        opacity: 0.9
-      }}>
-        Your Personal AI Golf Coach
-      </h2>
-      
-      <div style={{
-        maxWidth: '600px',
-        margin: '20px auto 0 auto'
-      }}>
-        <h3 style={{
-          fontSize: isMobile ? '18px' : '22px',
-          fontWeight: '600',
-          margin: '0 0 8px 0',
-          color: '#4CAF50'
-        }}>
-          Get Personalized Golf Advice
-        </h3>
-        <p style={{
-          fontSize: isMobile ? '14px' : '16px',
+      <div>
+        <h1 style={{
           margin: 0,
-          opacity: 0.95
+          fontSize: isMobile ? '24px' : '30px',
+          fontWeight: 600,
+          letterSpacing: '-0.5px',
+          textAlign: 'left'
         }}>
-          Ask any question about your golf game and get instant expert coaching
-        </p>
+          Coach Chip
+        </h1>
+        <h2 style={{
+          margin: '3px 0 0 0',
+          fontSize: isMobile ? '14px' : '16px',
+          fontWeight: 300,
+          opacity: 0.9,
+          textAlign: 'left'
+        }}>
+          Your Personal AI Golf Coach
+        </h2>
       </div>
     </div>
   </Link>
 </header>
+
+{/* Separate Value Proposition Section */}
+<div style={{
+  backgroundColor: 'white',
+  padding: '20px',
+  borderRadius: '10px',
+  marginBottom: '20px',
+  textAlign: 'center',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+}}>
+  <h3 style={{
+    fontSize: isMobile ? '18px' : '22px',
+    fontWeight: '600',
+    margin: '0 0 8px 0',
+    color: '#4CAF50'
+  }}>
+    Get Personalized Golf Advice
+  </h3>
+  <p style={{
+    fontSize: isMobile ? '14px' : '16px',
+    margin: 0,
+    color: '#555'
+  }}>
+    Ask any question about your golf game and get instant expert coaching
+  </p>
+</div>
 
       {/* Skill Level and Clear History Container */}
       <div style={styles.headerContainer}>
