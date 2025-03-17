@@ -485,39 +485,60 @@ useEffect(() => {
         fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
         backgroundColor: '#f4f7f6'
       }}>
-        {/* New Header */}
-        <header 
-  style={{
-    backgroundColor: '#2c3e50',
-    color: 'white',
-    padding: '20px',
-    borderRadius: '10px',
-    marginBottom: '20px',
-    textAlign: 'center',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-    cursor: 'pointer' // Add this to show it's clickable
-  }}
->
+{/* Enhanced Header */}
+<header style={{
+  backgroundColor: '#2c3e50',
+  backgroundImage: 'linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9))',
+  color: 'white',
+  padding: '30px 20px',
+  borderRadius: '10px',
+  marginBottom: '25px',
+  textAlign: 'center',
+  boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+}}>
   <Link href="/" style={{ 
     color: 'white', 
     textDecoration: 'none' 
   }}>
-    <h1 style={{
-      margin: 0,
-      fontSize: isMobile ? '24px' : '32px',
-      fontWeight: 600,
-      letterSpacing: '-0.5px'
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
     }}>
-      Coach Chip
-    </h1>
-    <h2 style={{
-      margin: '10px 0 0',
-      fontSize: isMobile ? '14px' : '16px',
-      fontWeight: 300,
-      opacity: 0.8
-    }}>
-      Your AI Golf Coach
-    </h2>
+      <div style={{
+        width: '60px',
+        height: '60px',
+        backgroundColor: 'white',
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '15px',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+      }}>
+        <span style={{
+          fontSize: '24px',
+          fontWeight: 'bold',
+          color: '#2c3e50'
+        }}>CC</span>
+      </div>
+      <h1 style={{
+        margin: 0,
+        fontSize: isMobile ? '28px' : '36px',
+        fontWeight: 600,
+        letterSpacing: '-0.5px'
+      }}>
+        Coach Chip
+      </h1>
+      <h2 style={{
+        margin: '10px 0 0',
+        fontSize: isMobile ? '16px' : '18px',
+        fontWeight: 300,
+        opacity: 0.9
+      }}>
+        Your Personal AI Golf Coach
+      </h2>
+    </div>
   </Link>
 </header>
 
